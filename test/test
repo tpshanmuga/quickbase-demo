@@ -1,0 +1,39 @@
+@startuml
+	interface DBManager {
+		Connection getConnection()
+	}
+	DBManager <-- DBManagerImpl
+	
+	interface IStatService {
+		Map<String, Pair<String,Integer>> getCountryAggregatePopulations()
+		Map<String, List<String,Integer>> getCountryPopulations()
+	}
+	IStatService <-- ConcreteStatService
+	IStatService <-- DBStatService
+	
+	class Country {
+		Long id;
+		String code;
+		String name;		
+		int totalPopulation;
+		List<State> states;
+	}
+	
+	class State {
+		Long id;
+		String name;
+		Long countryId;
+		List<City> cities;
+	}
+	
+	class City {
+		Long id;
+		String name;
+		int population;
+		Long stateId;
+	}
+	
+	Country "1" *-- "many" State : contains
+	State "1" *-- "many" City : contains
+	
+@enduml
